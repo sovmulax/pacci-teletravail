@@ -13,3 +13,8 @@ django-celery-results
 django-environ
 django-admin-interface
 django-crispy-forms==2.1
+django-safedelete
+django-simple-history
+django-bootstrap4
+crispy-bootstrap4
+django-braces

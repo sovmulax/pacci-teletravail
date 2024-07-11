@@ -100,7 +100,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
-AUTH_USER_MODEL = "intranet.CustomUser"
+# AUTH_USER_MODEL = "intranet.CustomUser"
 
 # Database
 

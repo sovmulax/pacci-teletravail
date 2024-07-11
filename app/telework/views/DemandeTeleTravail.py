@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy,reverse
-from app.models import DemandeTeleTravail, LiaisonAgentSuperieur, Personnel
-from app.forms import DemandeTeleTravailForm, MotifRefusForm
+from telework.models import DemandeTeleTravail, LiaisonAgentSuperieur, Personnel
+from telework.forms import DemandeTeleTravailForm, MotifRefusForm
 from braces.views import FormMessagesMixin
 from django.views.generic import ListView,CreateView,UpdateView
 from django.contrib.auth.decorators import login_required
@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import datetime
 
-from app.views import MotifRefus
+from telework.views import MotifRefus
 
 
 @method_decorator(login_required, name='dispatch')

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.contrib import messages
 
-from app.models import DemandeTeleTravail, Service  # Assurez-vous d'importer le modèle Service correctement
+from telework.models import DemandeTeleTravail, Service  # Assurez-vous d'importer le modèle Service correctement
 
 def index(request):
     # Assurez-vous que l'utilisateur est connecté et que son service est "Ressource humaine"

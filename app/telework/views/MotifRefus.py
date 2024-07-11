@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse_lazy,reverse
-from app.models import Personnel, MotifRefus,LiaisonAgentSuperieur
-from app.forms import  MotifRefusForm
+from telework.models import Personnel, MotifRefus,LiaisonAgentSuperieur
+from telework.forms import  MotifRefusForm
 from braces.views import FormMessagesMixin
 from django.views.generic import ListView,CreateView,UpdateView
 from django.contrib.auth.decorators import login_required
