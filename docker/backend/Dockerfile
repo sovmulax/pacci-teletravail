@@ -24,7 +24,7 @@ COPY ./requirements.txt /home/app/
 RUN pip3 install -r requirements.txt
 
 # Copy your application files
-COPY ./app /home/app
+COPY ./app /home/app/backend
 COPY ./docker /home/app/docker
 
 # Make entrypoint scripts executable
