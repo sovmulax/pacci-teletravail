@@ -40,7 +40,7 @@ BASE_URL = env("BASE_URL")
 CRSF_COOKIE_SECURE = int(env("CRSF_COOKIE_SECURE", default=0))
 
 LOGIN_URL = ""
-LOGIN_REDIRECT_URL = "/home"
+LOGIN_REDIRECT_URL = "/user/profil/"
 LOGOUT_REDIRECT_URL = ""
 
 MEDIA_URL = "/media/"
