@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    entrypoint: [ "/home/app/docker/backend/server-entrypoint.sh" ]
+    volumes:
+      - static_volume:/home/app/backend/static
+      - media_volume:/home/app/backend/media
+    expose:
+      - 8000
+    env_file:
+      - ./app/core/.env
+  nginx:
+    container_name: nginx
+    build: ./docker/nginx
+    restart: always
+    volumes:
+      - static_volume:/home/app/backend/static
+      - media_volume:/home/app/backend/media
+    ports:
+      - 4001:80 #externe port of the serveur
+    depends_on:
+      - app
+    logging:
+      options:
+        max-size: 10m
+  redis:
+    container_name: redis
+    restart: always
+    image: redis:7.0.5-alpine
+    expose:
+      - 6379
+  deamons:
+    container_name: celery-beat-deamons
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    entrypoint: [ "/home/app/docker/backend/daemon-entrypoint.sh" ]
+    env_file:
+      - ./app/core/.env
+    depends_on:
+      - app
+      - redis
+    volumes:
+      - ./docker/supervisor/celery.conf:/etc/supervisor/conf.d/celery.conf
+      - static_volume:/home/app/backend/static
+      - media_volume:/home/app/backend/media
+
+volumes:
+  static_volume: {}
+  media_volume: {}
