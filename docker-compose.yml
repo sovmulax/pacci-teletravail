@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   app:
-    container_name: server
+    container_name: server_telework
     restart: always
     build:
       context: .
@@ -16,7 +16,7 @@ services:
     env_file:
       - ./app/core/.env
   nginx:
-    container_name: nginx
+    container_name: nginx_telework
     build: ./docker/nginx
     restart: always
     volumes:
