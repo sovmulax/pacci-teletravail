@@ -35,7 +35,7 @@
                 crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="container-xxl position-relative bg-white d-flex p-0">
+        <div>
             <!-- Spinner Start -->
             <div id="spinner"
                  class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -57,7 +57,7 @@
                             </h4>
                         </marquee>
                     </a>
-                    <div class="d-flex align-items-center ms-4 mb-4">
+                    {% comment %} <div class="d-flex align-items-center ms-4 mb-4">
                         <div class="position-relative">
                             {% if request.user.personnel.photo %}
                                 <img class="rounded-circle me-lg-2"
@@ -71,7 +71,7 @@
                         <div class="ms-3">
                             <h6 class="mb-0">{{ request.user.username }}</h6>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <div class="navbar-nav w-100 d-flex align-items-start">
                         <a href="{% url 'index' %}" class="nav-item nav-link"><i class="fa fa-th-large"></i> Indicateur  </a>
                         <a href="{% url 'DemandeTeleTravail_create' %}"
@@ -97,8 +97,10 @@
                            class="nav-item nav-link">
                             <i class="fa fa-archive"></i>Mes Historiques
                         </a>
-                        <div class="nav-item dropdown w-100">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt"></i> Documents</a>
+                        <div class="nav-item dropdown w-48">
+                            <a href="#"
+                               class="nav-link dropdown-toggle m-1"
+                               data-bs-toggle="dropdown"><i class="far fa-file-alt"></i> Documents</a>
                             <div class="dropdown-menu w-100">
                                 <a href="{% static 'doc/Manuel_utilisation.pdf' %}"
                                    class="nav-item nav-link w-100"
@@ -118,7 +120,7 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-0 mb-4">
                     <div class="navbar-nav align-items-center ms-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -131,7 +133,7 @@
                                 {% endif %}
                                 <span class="d-none d-lg-inline-flex">{{ request.user.username }}</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <div class="dropdown-menu dropdown-menu-end border-0 rounded-0 rounded-bottom m-0">
                                 <a href="{% url 'profile' %}" class="dropdown-item"><i class="fa fa-user"></i> Profil</a>
                                 <a href="{% url 'login' %}" class="dropdown-item"><i class="fa fa-sign-out-alt"> </i>Deconnexion </a>
                             </div>
