@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4"> Historiques </h6>
+
+        <form method="get" action="">
+            {% csrf_token %}
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date_debut">Date de début:</label>
+                        <input type="date" class="form-control" id="date_debut" name="date_debut">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date_fin">Date de fin:</label>
+                        <input type="date" class="form-control" id="date_fin" name="date_fin">
+                    </div>
+                </div>
+                
+            </div><br>
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+        </form>
+        <div class="table-responsive">
+            {% if DemandeTeleTravail_list_history %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date de Demande</th>
+                            <th scope="col">Motif de la demande</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Date validation</th>
+                            <th scope="col">Détails</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date de Demande</th>
+                            <th scope="col">Motif de la demande</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Date validation</th>
+                            <th scope="col">Détails</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for DemandeTeleTravail in DemandeTeleTravail_list_history %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ DemandeTeleTravail.date_demande }}</td>
+                            <td>{{ DemandeTeleTravail.motif }}</td>
+                            <td>{{ DemandeTeleTravail.statut }}</td>
+                            <td>{{ DemandeTeleTravail.date_signature_superieur }}</td>
+                            <td>
+                                <a href="{% url 'demande_detail' demandeTeleTravail_id=DemandeTeleTravail.pk %}">
+                                    <div class="icone-oeil">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h1><i class="fas fa-info-circle"></i> Historique vide</h1>
+                <h3>
+                    <a href="{% url 'DemandeTeleTravail_create' %}">
+                        <i class="fas fa-arrow-left"></i> CREE UNE DEMANDE
+                    </a>
+                </h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

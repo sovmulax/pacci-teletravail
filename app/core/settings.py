@@ -14,6 +14,7 @@ from celery.schedules import crontab
 from pathlib import Path
 import os
 import environ
+from django.contrib.messages import constants as messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,9 +57,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "appname", #put your app name
+    "telework",
     "import_export",
     "django_celery_results",
+    "safedelete",
+    "simple_history",
+    "crispy_forms",
+    "bootstrap4",
+    "crispy_bootstrap4",
 ]
 
 MIDDLEWARE = [
@@ -69,7 +75,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "appname.middleware.AutoLogout", #put your app name
+    "telework.middleware.AutoLogout",  # put your app name
 ]
 
 SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
@@ -157,3 +163,13 @@ EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_RECIPIENT = env("EMAIL_RECIPIENT")
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4',
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

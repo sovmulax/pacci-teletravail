@@ -12,3 +12,4 @@ django-import-export
 django-celery-results
 django-environ
 django-admin-interface
+django-crispy-forms==2.1

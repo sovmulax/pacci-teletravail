@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   app:
@@ -23,34 +23,22 @@ services:
       - static_volume:/home/app/backend/static
       - media_volume:/home/app/backend/media
     ports:
-      - 4001:80 #externe port of the serveur
+      - 4002:80 #externe port of the serveur
     depends_on:
       - app
     logging:
       options:
         max-size: 10m
-  redis:
-    container_name: redis
-    restart: always
-    image: redis:7.0.5-alpine
-    expose:
-      - 6379
-  deamons:
-    container_name: celery-beat-deamons
-    restart: always
-    build:
-      context: .
-      dockerfile: ./docker/backend/Dockerfile
-    entrypoint: [ "/home/app/docker/backend/daemon-entrypoint.sh" ]
-    env_file:
-      - ./app/core/.env
-    depends_on:
-      - app
-      - redis
-    volumes:
-      - ./docker/supervisor/celery.conf:/etc/supervisor/conf.d/celery.conf
-      - static_volume:/home/app/backend/static
-      - media_volume:/home/app/backend/media
+
+networks:
+  telework_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+          ip_range: 172.28.5.0/24
+          gateway: 172.28.5.254
 
 volumes:
   static_volume: {}

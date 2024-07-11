@@ -1,22 +1,51 @@
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from telework.views import (
+    DemandeTeleTravailListView_Attente,
+    DemandeTeleTravailCreateview,
+    DemandeTeleTravailListView_history,
+    DemandeTeleTravailListView_history_admin,
+    MotifRefuslist,
+    MotifRefusCreateview,
+    DemandeTeleTravailListView_Attente_admin,
+    DemandeTeleTravailUpdateView,
+    afficher_details_DemandeTeleTravail,
+    accepter_demande,
+    refuser_demande,
+    index,
+    reset_password,
+    user_profile,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('', auth_views.LoginView.as_view(), name='login'),
+    path('index/', index, name="index"),
+    path('reset/password/', reset_password, name="reset_password"),
+    
+    # URLs pour la gestion des demandes de télétravail
+    path('DemandeTeleTravail/DemandeTeleTravailListView_Attente/', DemandeTeleTravailListView_Attente.as_view(), name='DemandeTeleTravail_list_attente'),
+    path('DemandeTeleTravail/DemandeTeleTravailListView_history/', DemandeTeleTravailListView_history.as_view(), name='DemandeTeleTravail_list_history'),
+    path('DemandeTeleTravail/DemandeTeleTravail_create/', DemandeTeleTravailCreateview.as_view(), name='DemandeTeleTravail_create'),
+    path('DemandeTeleTravail/DemandeTeleTravail_UpdateView/<uuid:pk>/', DemandeTeleTravailUpdateView.as_view(), name='DemandeTeleTravail_UpdateView'),
+    path('DemandeTeleTravail/DemandeTeleTravail_detail/<uuid:demandeTeleTravail_id>/', afficher_details_DemandeTeleTravail, name='demande_detail'),
+    
+    # URLs pour l'administration des demandes de télétravail
+    path('DemandeTeleTravail/DemandeTeleTravailListView_history_admin/', DemandeTeleTravailListView_history_admin.as_view(), name='DemandeTeleTravail_list_history_admin'),
+    path('DemandeTeleTravail/DemandeTeleTravailListView_Attente_admin/', DemandeTeleTravailListView_Attente_admin.as_view(), name='DemandeTeleTravail_list_attente_admin'),
+
+    # URLs pour accepter et refuser les demandes
+    path('teletravail/accepter/<uuid:demandeTeleTravail_id>/', accepter_demande, name='accepter_demande'),
+    path('teletravail/refuser/<uuid:demandeTeleTravail_id>/', refuser_demande, name='refuser_demande'),
+
+    # URLs pour les motifs de refus
+    path('MotifRefus/MotifRefus_list/', MotifRefuslist.as_view(), name='MotifRefus_list'),
+    path('MotifRefus/MotifRefus_create/', MotifRefusCreateview.as_view(), name='MotifRefus_create'),
+    
+    # URL pour afficher le profil utilisateur
+    path('user/profil/', user_profile, name='profile'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

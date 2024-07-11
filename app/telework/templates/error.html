@@ -1,0 +1,50 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Erreur</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 800px;  /* Augmenter la largeur du conteneur */
+            margin: 0 auto;
+            padding: 40px;  /* Augmenter la taille du padding */
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h4 {
+            font-size: 32px;  /* Augmenter la taille de la police */
+            margin-bottom: 20px;
+            color: #333;
+        }
+        h5 {
+            font-size: 24px;  /* Augmenter la taille de la police */
+            margin-bottom: 40px;
+            color: #555;
+        }
+        .logo {
+            width: 200px;  /* Augmenter la largeur du logo */
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://th.bing.com/th/id/R.26b5a2b8e1a2c91d84366d8d719f3eca?rik=%2ba2fGmKAciOPMQ&pid=ImgRaw&r=0" alt="Logo" class="logo">
+        <h4>BIENVENUE SUR LA PLATEFORME DE GESTION DE TELETRAVAIL DE PAC-CI</h4>
+        <h5>Veuillez effectuer votre demande svp !!</h5>
+        <p>{{ message }}</p>
+    </div>
+</body>
+</html>
+{% endblock content %}

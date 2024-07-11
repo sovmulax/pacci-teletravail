@@ -1,0 +1,120 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<!-- Inclure Morris.js et ses dépendances (jQuery et Raphael) -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
+
+<br>
+<h4 align='center'>Statistiques Mensuelles des Demandes de Télétravail par Service</h4>
+<div id="bar-chart"></div>
+
+<br><br>
+{% if demandes_par_service %}
+    <h4 align='center'>Nombre de demandes de télétravail pour la journée du {{ date_actuelle }}</h4>
+
+    <div class="row">
+        {% for service in demandes_par_service %}
+            <div class="col-sm-6 col-xl-4 mb-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Service: {{ service.nom }}</p>
+                        <h6 class="mb-0">Nombre de Personnes : {{ service.nombre_demandes }}</h6>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <h4 align='center'>Aucune demande de télétravail pour la journée du {{ date_actuelle }}</h4>
+{% endif %}
+
+
+<br><br>
+<h4 align='center'  > Taux  de Télétravail  en Pourcentage par service   </h4>
+
+<div class="row">
+     {% for entry in data %}
+        <div class="col-sm-6 col-xl-4 mb-4">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2"> Service :{{ entry.service }}</p>
+                    <h6 class="mb-0">Pourcentage : {{entry.percentage }}%</h6>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<script>
+    $(function() {
+        Morris.Donut({
+            element: 'donut-chart',
+            data: [
+                {% for entry in data %}
+                    {label: "{{ entry.service }}", value: {{ entry.percentage }} },
+                {% endfor %}
+            ],
+            resize: true,
+            colors: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#34495e'],
+            formatter: function (y) { return y + "%" },
+            backgroundColor: '#ffffff',
+            labelColor: '#1f2c39',
+            gridLineColor: '#1f2c39',
+            lineColors: ['#1f2c39']
+        });
+    });
+    </script>
+    
+
+<script>    
+    //diagrame mentionings
+    $(document).ready(function() {
+        // Define custom colors for each bar
+        var customColors = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#990099', '#0099c6', '#dd4477'];
+    
+        // Retrieve data from Django view
+        var data = {{ data_for_morris|safe }};
+        
+        // Sort the data by value in ascending order
+        data.sort(function(a, b) {
+            return a.value - b.value;
+        });
+    
+        // Initialize the bar chart with Morris.js
+        var barChart = Morris.Bar({
+            element: 'bar-chart',  // ID of the div where to display the chart
+            data: data,  // Sorted data
+            xkey: 'label',  // Key for x-axis labels
+            ykeys: ['value'],  // Key for y-axis data
+            labels: ['Nombre total de demandes'],  // Label for y-axis data
+            hideHover: 'auto',  // Automatically hide the pointer on hover
+            barColors: function(row, series, type) {
+                // Apply custom colors to each bar
+                return customColors[row.x % customColors.length];
+            }
+        });
+    
+        // Create legend based on custom colors
+        var legendHtml = '';
+        for (var i = 0; i < data.length; i++) {
+            var label = data[i].label;
+            var color = customColors[i % customColors.length];
+            legendHtml += '<div><span style="display:inline-block;width:10px;background-color:' + color + '"></span> ' + label + '</div>';
+        }
+    
+        // Append legend to a container
+        $('#legend-container').html(legendHtml);
+    });
+    
+</script>
+
+
+
+{% endblock content %}
