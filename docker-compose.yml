@@ -31,7 +31,9 @@ services:
         max-size: 10m
 
 networks:
-  telework_network:
+  network1:
+    external: true
+    name: telework_network
     driver: bridge
     ipam:
       driver: default
