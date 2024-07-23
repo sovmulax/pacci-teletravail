@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 import environ
 from django.contrib.messages import constants as messages
+from .prod import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

@@ -18,3 +18,5 @@ django-simple-history
 django-bootstrap4
 crispy-bootstrap4
 django-braces
+python-ldap==3.4.3
+django-auth-ldap
