@@ -95,12 +95,18 @@ class DemandeTeleTravail(SafeDeleteModel, HistoricalRecords):
     id = models.UUIDField("ID", primary_key=True, default=uuid.uuid4, editable=False)
 
     MOTIFS_CHOICES = [
-        ("Necessite_professionnelle", "Nécessité professionnelle"),
-        ("Conditions_env_defavorables", "Conditions environnementales défavorables"),
-        ("Perturbations_sociales_transp", "Perturbations sociales et de transport"),
-        ("Cas_de_force_majeure", "Cas de force majeure"),
+        ("Nécessité professionnelle", "Nécessité professionnelle"),
         (
-            "Demandes_personnelles_exceptionnelles",
+            "Conditions environnementales défavorables",
+            "Conditions environnementales défavorables",
+        ),
+        (
+            "Perturbations sociales et de transport",
+            "Perturbations sociales et de transport",
+        ),
+        ("Cas de force majeure", "Cas de force majeure"),
+        (
+            "Demandes personnelles exceptionnelles",
             "Demandes personnelles exceptionnelles",
         ),
         ("Autres", "Autres"),
@@ -178,7 +184,9 @@ class DemandeTeleTravail(SafeDeleteModel, HistoricalRecords):
         print("La méthode clean est appelée.")
         aujourdhui = timezone.now().date()
         if self.date_debut <= aujourdhui:
-            raise ValidationError("La date de demande de debut ne pas être aujourd'hui")
+            raise ValidationError(
+                "La date de la demande ne peut être antérieure ou égale à la date du jour."
+            )
 
         if self.date_debut and self.date_fin:
             time_difference = self.date_fin - self.date_debut
@@ -191,7 +199,7 @@ class DemandeTeleTravail(SafeDeleteModel, HistoricalRecords):
                     "La période de télétravail ne peut pas dépasser deux jours."
                 )
 
-            if days_difference <= 0:
+            if days_difference < 0:
                 raise ValidationError(
                     "La période de télétravail ne peut pas être negatif ."
                 )
