@@ -7,6 +7,7 @@ from simple_history.models import HistoricalRecords
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 import uuid
+from django.contrib.auth.models import AbstractUser
 
 
 class TypePersonnel(SafeDeleteModel, HistoricalRecords):
@@ -35,20 +36,24 @@ class Service(SafeDeleteModel, HistoricalRecords):
         return self.nom
 
 
-class Personnel(SafeDeleteModel, HistoricalRecords):
-
+class Personnel(AbstractUser, SafeDeleteModel, HistoricalRecords):
     _safedelete_policy = SOFT_DELETE_CASCADE
     id = models.UUIDField("ID", primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    type_personnel = models.ForeignKey(TypePersonnel, on_delete=models.CASCADE)
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    # user = models.OneToOneField(User, on_delete=models.CASCADE)
+    type_personnel = models.ForeignKey(
+        TypePersonnel, on_delete=models.CASCADE, blank=True, null=True
+    )
+    password = models.CharField(max_length=200)
+    service = models.ForeignKey(
+        Service, on_delete=models.CASCADE, blank=True, null=True
+    )
     email = models.EmailField("Email", blank=True, null=True)
     photo = models.ImageField(
         "Photo", upload_to="profile_photos/", blank=True, null=True
     )
 
     def __str__(self):
-        return f"{self.user.username}  "
+        return self.username
 
 
 class MotifRefus(models.Model):
