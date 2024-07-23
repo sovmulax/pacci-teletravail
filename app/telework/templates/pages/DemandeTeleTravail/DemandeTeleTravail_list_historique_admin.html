@@ -1,86 +1,90 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-
-<div class="col-12">
-    <div class="rounded h-100 p-4">
-        <h6 class="mb-4">Mes Historiques De Demandes Reçues </h6>
-
-        <!-- Ajouter un formulaire de filtrage -->
-        <form method="get" class="mb-4">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="nom">Nom de l'agent:</label>
-                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Entrez le nom de l'agent">
+    <div class="col-12">
+        <div class="rounded h-100 p-4">
+            <h6 class="mb-4">Historique </h6>
+            <!-- Ajouter un formulaire de filtrage -->
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="nom">Nom de l'agent:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="nom"
+                                   name="nom"
+                                   placeholder="Entrez le nom de l'agent">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="date_debut">Date de début:</label>
+                            <input type="date" class="form-control" id="date_debut" name="date_debut">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="date_fin">Date de fin:</label>
+                            <input type="date" class="form-control" id="date_fin" name="date_fin">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="date_debut">Date de début:</label>
-                        <input type="date" class="form-control" id="date_debut" name="date_debut">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="date_fin">Date de fin:</label>
-                        <input type="date" class="form-control" id="date_fin" name="date_fin">
-                    </div>
-                </div>
-                
+                <br>
+                <button type="submit" class="btn btn-primary">Filtrer</button>
+            </form>
+            <div class="table-responsive">
+                {% if DemandeTeleTravail_list_history_admin %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom de l'agent</th>
+                                <th scope="col">Date de la demande</th>
+                                <th scope="col">Motif de la demande</th>
+                                <th scope="col">Statut</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for DemandeTeleTravail in DemandeTeleTravail_list_history_admin %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ DemandeTeleTravail.agent }}</td>
+                                    <td>{{ DemandeTeleTravail.date_demande }}</td>
+                                    <td>{{ DemandeTeleTravail.motif }}</td>
+                                    <td>{{ DemandeTeleTravail.statut }}</td>
+                                    <td>{{ DemandeTeleTravail.date_signature_superieur }}</td>
+                                    <td>
+                                        <a href="{% url 'demande_detail' demandeTeleTravail_id=DemandeTeleTravail.pk %}">
+                                            <div class="icone-oeil">
+                                                <i class="fas fa-eye"></i>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom de l'agent</th>
+                                <th scope="col">Date de demande</th>
+                                <th scope="col">Motif de la demande</th>
+                                <th scope="col">Statut</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <h5 class="center">Aucune correspondance</h5>
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
-            <button type="submit" class="btn btn-primary" >Filtrer</button>
-        </form>
-
-        <div class="table-responsive">
-            {% if DemandeTeleTravail_list_history_admin %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nom de l'agent</th>
-                            <th scope="col">Date de Demande</th>
-                            <th scope="col">MOTIF DE LA DEMANDE</th>
-                            <th scope="col">STATUT</th>
-                            <th scope="col">Date Validation</th>
-                            <th scope="col">Détails</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nom de l'agent</th>
-                            <th scope="col">Date de Demande</th>
-                            <th scope="col">MOTIF DE LA DEMANDE</th>
-                            <th scope="col">STATUT</th>
-                            <th scope="col">Date Validation</th>
-                            <th scope="col">Détails</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        {% for DemandeTeleTravail in DemandeTeleTravail_list_history_admin %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ DemandeTeleTravail.agent }}</td>
-                            <td>{{ DemandeTeleTravail.date_demande }}</td>
-                            <td>{{ DemandeTeleTravail.motif }}</td>
-                            <td>{{ DemandeTeleTravail.statut }}</td>
-                            <td>{{ DemandeTeleTravail.date_signature_superieur }}</td>
-                            <td>
-                                <a href="{% url 'demande_detail' demandeTeleTravail_id=DemandeTeleTravail.pk %}">
-                                    <div class="icone-oeil">
-                                        <i class="fas fa-eye"></i>
-                                    </div>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <h1><i class="fas fa-info-circle"></i>  Historique vide</h1>
-            {% endif %}
         </div>
     </div>
-</div>
-
 {% endblock content %}
