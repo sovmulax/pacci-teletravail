@@ -164,12 +164,12 @@ def accepter_demande(request, demandeTeleTravail_id):
     # Envoyez un e-mail à l'utilisateur pour lui notifier l'acceptation de la demande
     subject_user = "Demande de télétravail acceptée"
     message_user = "Votre demande de télétravail a été acceptée."
-    send_mail(subject_user, message_user, "admin@pacci.ci", [demande.agent.email])
+    send_mail(subject_user, message_user, "intranet@pac-ci.org", [demande.agent.email])
 
     # Envoyez un e-mail au supérieur hiérarchique pour le notifier
     subject_superieur = "Demande de télétravail acceptée"
     message_superieur = f"La demande de télétravail de {demande.agent} a été acceptée."
-    send_mail(subject_superieur, message_superieur, "admin@pacci.ci", [superieur.email])
+    send_mail(subject_superieur, message_superieur, "intranet@pac-ci.org", [superieur.email])
 
     # # Envoyez un e-mail à une autre adresse spécifique, si nécessaire
     # autre_email = 'exemple@example.com'
@@ -203,7 +203,7 @@ def refuser_demande(request, demandeTeleTravail_id):
             subject_user = "Demande de télétravail refusée"
             message_user = f"Votre demande de télétravail a été refusée."
             send_mail(
-                subject_user, message_user, "admin@pacci.ci", [demande.agent.email]
+                subject_user, message_user, "intranet@pac-ci.org", [demande.agent.email]
             )
 
             subject_superieur = "Demande de télétravail refusée"
@@ -213,7 +213,7 @@ def refuser_demande(request, demandeTeleTravail_id):
             send_mail(
                 subject_superieur,
                 message_superieur,
-                "admin@pacci.ci",
+                "intranet@pac-ci.org",
                 [superieur.email],
             )
 
@@ -269,7 +269,7 @@ class DemandeTeleTravailCreateview(CreateView):
             # Envoyer un e-mail à l'utilisateur
             subject_user = "Confirmation de la demande de télétravail"
             message_user = "Votre demande de télétravail a été soumise avec succès."
-            send_mail(subject_user, message_user, "admin@pacci.ci", [mail])
+            send_mail(subject_user, message_user, "intranet@pac-ci.org", [mail])
 
             # Envoyer un e-mail au supérieur hiérarchique
             subject_superieur = "Nouvelle demande de télétravail"
@@ -277,7 +277,7 @@ class DemandeTeleTravailCreateview(CreateView):
             send_mail(
                 subject_superieur,
                 message_superieur,
-                "admin@pacci.ci",
+                "intranet@pac-ci.org",
                 [superieur_email],
             )
         else:
