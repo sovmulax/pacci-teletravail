@@ -29,7 +29,7 @@ class DemandeTeleTravailListView_history_admin(ListView):
         user = self.request.user
 
         # Filtrer les instances de Personnel où l'utilisateur est associé
-        personnel = Personnel.objects.filter(user=user).first()
+        personnel = self.request.user
 
         # Si le personnel est trouvé, obtenir le service associé
         if personnel:
@@ -70,7 +70,7 @@ class DemandeTeleTravailListView_history(ListView):
     def get_queryset(self):
         # Filtrer les demandes liées à l'utilisateur connecté
         user = self.request.user
-        queryset = DemandeTeleTravail.objects.filter(agent=user.personnel, statut__in=['Accepté', 'Refusé']).order_by('-date_demande')
+        queryset = DemandeTeleTravail.objects.filter(agent=user, statut__in=['Accepté', 'Refusé']).order_by('-date_demande')
 
         # Récupérer les dates de début et de fin depuis les paramètres de requête
         date_debut = self.request.GET.get('date_debut')
@@ -100,7 +100,7 @@ class DemandeTeleTravailListView_Attente(ListView):
     def get_queryset(self):
         # Filtrer les demandes liées à l'utilisateur connecté et son service lié
         user = self.request.user
-        queryset = DemandeTeleTravail.objects.filter(agent__user=user, statut='en attente').order_by('-date_demande')
+        queryset = DemandeTeleTravail.objects.filter(agent=user, statut='en attente').order_by('-date_demande')
         return queryset
 
 @method_decorator(login_required, name='dispatch')
@@ -114,7 +114,7 @@ class DemandeTeleTravailListView_Attente_admin(ListView):
         user = self.request.user
 
         # Filtrer les instances de Personnel où l'utilisateur est associé
-        personnel = Personnel.objects.filter(user=user).first()
+        personnel = self.request.user
 
         # Si le personnel est trouvé, obtenir le service associé
         if personnel:
@@ -138,7 +138,7 @@ def accepter_demande(request, demandeTeleTravail_id):
 
     # Vérifiez les autorisations pour accepter la demande ici, si nécessaire
 
-    superieur = request.user.personnel
+    superieur = request.user
 
     # Acceptez la demande en utilisant la méthode de votre modèle
     demande.accepter_demande(superieur)
@@ -155,7 +155,7 @@ def accepter_demande(request, demandeTeleTravail_id):
 
     # Envoyez un e-mail à une autre adresse spécifique, si nécessaire
     autre_email = 'exemple@example.com'
-    subject_autre = f"Réception de la demande de télétravail au niveau du service {request.user.personnel.service}"
+    subject_autre = f"Réception de la demande de télétravail au niveau du service {request.user.service}"
     message_autre = f'La demande de télétravail de {demande.agent} a été acceptée.'
     send_mail(subject_autre, message_autre, 'kouassijunior614@gmail.com', [autre_email])
 
@@ -168,7 +168,7 @@ def accepter_demande(request, demandeTeleTravail_id):
 @login_required
 def refuser_demande(request, demandeTeleTravail_id):
     demande = get_object_or_404(DemandeTeleTravail, id=demandeTeleTravail_id)
-    superieur = request.user.personnel
+    superieur = request.user
 
     if request.method == 'POST':
         form = MotifRefusForm(request.POST, current_demande=demande)
@@ -182,11 +182,11 @@ def refuser_demande(request, demandeTeleTravail_id):
 
             subject_user = 'Demande de télétravail refusée'
             message_user = f'Votre demande de télétravail a été refusée.'
-            send_mail(subject_user, message_user, 'votre-email@example.com', [demande.agent.email])
+            send_mail(subject_user, message_user, 'admin@pac-ci.org', [demande.agent.email])
 
             subject_superieur = 'Demande de télétravail refusée'
             message_superieur = f'La demande de télétravail de {demande.agent} a été refusée.'
-            send_mail(subject_superieur, message_superieur, 'votre-email@example.com', [superieur.email])
+            send_mail(subject_superieur, message_superieur, 'admin@pac-ci.org', [superieur.email])
 
             return redirect('DemandeTeleTravail_list_attente_admin')
     else:
@@ -216,8 +216,8 @@ class DemandeTeleTravailCreateview(CreateView):
 
     def form_valid(self, form):
         user = self.request.user
-        personnel = get_object_or_404(Personnel, user=user)
-        form.instance.agent = personnel
+        # personnel = get_object_or_404(Personnel, user=user)
+        form.instance.agent = user
 
         date_debut = form.cleaned_data['date_debut']
         date_fin = form.cleaned_data['date_fin']
@@ -227,8 +227,8 @@ class DemandeTeleTravailCreateview(CreateView):
         messages.add_message(
             self.request, messages.SUCCESS, f" Mr/M {user}  votre demande de {days_difference} jours a été envoyée à votre supérieur.")
 
-        mail = personnel.email
-        liaison_agent = LiaisonAgentSuperieur.objects.filter(agent=personnel).first()
+        mail = user.email
+        liaison_agent = LiaisonAgentSuperieur.objects.filter(agent=user).first()
 
         if liaison_agent:
             superieur_email = liaison_agent.superieur.email
@@ -286,7 +286,7 @@ class DemandeTeleTravailUpdateView(UpdateView):
     def form_valid(self, form):
         user = self.request.user
         personnel = get_object_or_404(Personnel, user=user)
-        form.instance.agent = personnel
+        form.instance.agent = user
 
         date_debut = form.cleaned_data['date_debut']
         date_fin = form.cleaned_data['date_fin']
@@ -330,7 +330,7 @@ def afficher_details_DemandeTeleTravail(request, demandeTeleTravail_id):
 @login_required
 def user_profile(request):
 
-    user_personnel = Personnel.objects.get(user=request.user)
+    user_personnel = request.user
 
     try:
         liaison = LiaisonAgentSuperieur.objects.get(agent=user_personnel)

@@ -172,7 +172,7 @@ class DemandeTeleTravail(SafeDeleteModel, HistoricalRecords):
             instance.delete()
 
     def __str__(self):
-        return f"{self.agent.user.username} - {self.statut} - {self.motif}"
+        return f"{self.agent.username} - {self.statut} - {self.motif}"
 
     def clean(self):
         print("La méthode clean est appelée.")
@@ -222,4 +222,4 @@ class LiaisonAgentSuperieur(SafeDeleteModel, HistoricalRecords):
     )
 
     def __str__(self):
-        return f"{self.agent.user.username} -> {self.superieur.user.username}"
+        return f"{self.agent.username} -> {self.superieur.username}"
