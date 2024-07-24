@@ -190,7 +190,7 @@ class DemandeTeleTravail(SafeDeleteModel, HistoricalRecords):
 
         if self.date_debut and self.date_fin:
             time_difference = self.date_fin - self.date_debut
-            days_difference = time_difference.days
+            days_difference = time_difference.days + 1
 
             print("Différence de jours :", days_difference)
 
@@ -199,7 +199,7 @@ class DemandeTeleTravail(SafeDeleteModel, HistoricalRecords):
                     "La période de télétravail ne peut pas dépasser deux jours."
                 )
 
-            if days_difference < 0:
+            if days_difference <= 0:
                 raise ValidationError(
                     "La période de télétravail ne peut pas être negatif ."
                 )
