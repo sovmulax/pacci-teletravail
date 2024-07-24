@@ -7,7 +7,7 @@ from telework.models import DemandeTeleTravail, Service  # Assurez-vous d'import
 
 def index(request):
     # Assurez-vous que l'utilisateur est connecté et que son service est "Ressource humaine"
-    if not request.user.is_authenticated or request.user.service.nom != "Ressource humaine":
+    if not request.user.is_authenticated or request.user.service.nom != "Ressources humaines":
         return render(request, 'error.html', {'message': ""})
 
     messages.add_message(request, messages.SUCCESS, "Bienvenue %s" % request.user.username)
