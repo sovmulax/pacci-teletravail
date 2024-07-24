@@ -254,7 +254,7 @@ class DemandeTeleTravailCreateview(CreateView):
         date_debut = form.cleaned_data["date_debut"]
         date_fin = form.cleaned_data["date_fin"]
         time_difference = date_fin - date_debut
-        days_difference = time_difference.days
+        days_difference = 1 if time_difference.days == 0 else time_difference.days
 
         messages.add_message(
             self.request,
@@ -349,7 +349,7 @@ class DemandeTeleTravailUpdateView(UpdateView):
         date_debut = form.cleaned_data["date_debut"]
         date_fin = form.cleaned_data["date_fin"]
         time_difference = date_fin - date_debut
-        days_difference = time_difference.days
+        days_difference = 1 if time_difference.days == 0 else time_difference.days
 
         messages.add_message(
             self.request,
