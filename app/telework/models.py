@@ -22,6 +22,13 @@ class TypePersonnel(SafeDeleteModel, HistoricalRecords):
         ],
     )
 
+    @classmethod
+    def get_default_pk(cls):
+        service, created = cls.objects.get_or_create(
+            nom="agent",
+        )
+        return service.pk
+
     def __str__(self):
         return self.nom
 
@@ -32,6 +39,13 @@ class Service(SafeDeleteModel, HistoricalRecords):
     id = models.UUIDField("ID", primary_key=True, default=uuid.uuid4, editable=False)
     nom = models.CharField(max_length=50)
 
+    @classmethod
+    def get_default_pk(cls):
+        service, created = cls.objects.get_or_create(
+            nom="Attente",
+        )
+        return service.pk
+
     def __str__(self):
         return self.nom
 
@@ -41,11 +55,19 @@ class Personnel(AbstractUser, SafeDeleteModel, HistoricalRecords):
     id = models.UUIDField("ID", primary_key=True, default=uuid.uuid4, editable=False)
     # user = models.OneToOneField(User, on_delete=models.CASCADE)
     type_personnel = models.ForeignKey(
-        TypePersonnel, on_delete=models.CASCADE, blank=True, null=True
+        TypePersonnel,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        default=TypePersonnel.get_default_pk,
     )
     password = models.CharField(max_length=200)
     service = models.ForeignKey(
-        Service, on_delete=models.CASCADE, blank=True, null=True
+        Service,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        default=Service.get_default_pk,
     )
     email = models.EmailField("Email", blank=True, null=True)
     photo = models.ImageField(

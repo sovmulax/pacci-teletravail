@@ -1,106 +1,115 @@
-{% extends 'layouts/base.html' %}
-{% block content %}
+{% extends 'layouts/base.html' %} {% block content %}
 <style>
-    /* styles.css */
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
+  /* styles.css */
+  body {
+    font-family: "Arial", sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
 
-    .container {
-        max-width: 900px; 
-        margin: 40px auto; 
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+  .container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 
-    h1 {
-        color: #333;
-    }
+  h1 {
+    color: #333;
+  }
 
-    .profile-info {
-        margin-bottom: 20px;
-    }
+  .profile-info {
+    margin-bottom: 20px;
+  }
 
-    .profile-info p {
-        margin: 10px 0;
-    }
+  .profile-info p {
+    margin: 10px 0;
+  }
 
-    .superior-info {
-        margin-top: 20px;
-    }
+  .superior-info {
+    margin-top: 20px;
+  }
 
-    .requests-info {
-        margin-top: 20px;
-    }
+  .requests-info {
+    margin-top: 20px;
+  }
 
-    .requests-info p {
-        margin: 10px 0;
-    }
-
+  .requests-info p {
+    margin: 10px 0;
+  }
 </style>
 
 <div class="container">
-
-    <div class="profile-info">
-        {% if agent.photo %}
-        <div class="testimonial-item text-center">
-            <img class="img-fluid rounded-circle mx-auto mb-4" src="{{ agent.photo.url }}" style="width: 150px; height: 150px;"> <!-- Adjust the width and height as needed -->
-        </div>
-        {% endif %}
-        <h1>{{ agent.user.username }}</h1>
-
-        <p><strong>Statut:</strong> {{ agent.type_agent.nom }}</p>
-        <p><strong>Service:</strong> {{ agent.service.nom }}</p>
-        <p><strong>Email:</strong> {{ agent.email }}</p>
+  <div class="profile-info">
+    {% if user_personnel.photo %}
+    <div class="testimonial-item text-center">
+      <img
+        class="img-fluid rounded-circle mx-auto mb-4"
+        src="{{ user_personnel.photo.url }}"
+        style="width: 150px; height: 150px"
+      />
+      <!-- Adjust the width and height as needed -->
     </div>
-    
-    {% if superior %}
-        <div class="superior-info">
-            <p><strong>Supérieur:</strong> {{ superior.user.username }}</p>
-        </div>
-    {% else %}
-        <div class="superior-info">
-            <p><strong>Supérieur:</strong> aucun supérieur</p>
-        </div>
     {% endif %}
+    <h1>{{ user_personnel.user.username }}</h1>
+    {% if user_personnel.type_personnel.nom == "superieur_hierarchique" %}
+    <p><strong>Statut:</strong> Supérieur hiérarchique</p>
+    {% else %}
+    <p><strong>Statut:</strong> {{ user_personnel.type_personnel.nom }}</p>
+    {% endif %}
+    <p><strong>Service:</strong> {{ user_personnel.service.nom }}</p>
+    <p><strong>Email:</strong> {{ user_personnel.email }}</p>
+  </div>
 
-    <div class="row">
-        <div class="col-sm-13 mb-4">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-edit fa-3x text-primary"></i>
-                <div class="ms-9">
-                    <p class="mb-6">Nombre de Demandes Effectuées</p>
-                    <h6 class="mb-0">{{ total_requests }} </h6>
-                </div>
-            </div>
-        </div>
+  {% if superior %}
+  <div class="superior-info">
+    <p><strong>Supérieur:</strong> {{ superior.user.username }}</p>
+  </div>
+  {% else %}
+  <div class="superior-info">
+    <p><strong>Supérieur:</strong> aucun supérieur</p>
+  </div>
+  {% endif %}
 
-        <div class="col-sm-4 mb-4">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-thumbs-up fa-3x text-success"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Nombre de Demandes Acceptées</p>
-                    <h6 class="mb-0">{{ accepted_requests }}</h6>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-sm-13 mb-4">
+      <div
+        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
+      >
+        <i class="fa fa-edit fa-3x text-primary"></i>
+        <div class="ms-9">
+          <p class="mb-6">Nombre de Demandes Effectuées</p>
+          <h6 class="mb-0">{{ total_requests }}</h6>
         </div>
-
-        <div class="col-sm-4 offset-sm-3 mb-4">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-thumbs-down fa-3x text-danger"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Nombre de Demandes Refusées</p>
-                    <h6 class="mb-0">{{ refused_requests }}</h6>
-                </div>
-            </div>
-        </div>
-        
+      </div>
     </div>
 
+    <div class="col-sm-4 mb-4">
+      <div
+        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
+      >
+        <i class="fa fa-thumbs-up fa-3x text-success"></i>
+        <div class="ms-3">
+          <p class="mb-2">Nombre de Demandes Acceptées</p>
+          <h6 class="mb-0">{{ accepted_requests }}</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4 offset-sm-3 mb-4">
+      <div
+        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
+      >
+        <i class="fa fa-thumbs-down fa-3x text-danger"></i>
+        <div class="ms-3">
+          <p class="mb-2">Nombre de Demandes Refusées</p>
+          <h6 class="mb-0">{{ refused_requests }}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
