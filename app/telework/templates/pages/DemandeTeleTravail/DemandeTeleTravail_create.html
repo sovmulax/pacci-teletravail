@@ -1,35 +1,39 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div id="loader" class="loader"></div>
+    <div id="loader" class="loader"></div>
     <!-- Start Content-->
-   
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body m-5">
-                        <h4 class="header-title" style="text-align:center; font-size: 24px; color: #333;">Faire une demande</h4>
-
-                        {% if method == "post" %}
-                            <form method="{{ method }}" class="form" action="{% url 'DemandeTeleTravail_create' %}">
-                                {% crispy form %}
-                                {% csrf_token %}
-                            </form>
-                        {% else %}
-                            <form method="post" class="form" action="{% url 'DemandeTeleTravail_UpdateView' pk=object.pk %}">
-                                {% crispy form %}
-                                {% csrf_token %}
-                            </form>
-                        {% endif %}
-                    </div>
-                    <!-- end card-body -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body m-5">
+                    <h4 class="header-title"
+                        style="text-align:center;
+                               font-size: 24px;
+                               color: #333">Faire une demande</h4>
+                    {% if method == "post" %}
+                        <form method="{{ method }}"
+                              class="form"
+                              action="{% url 'DemandeTeleTravail_create' %}">
+                            {% crispy form %}
+                            {% csrf_token %}
+                        </form>
+                    {% else %}
+                        <form method="post"
+                              class="form"
+                              action="{% url 'DemandeTeleTravail_UpdateView' pk=object.pk %}">
+                            {% crispy form %}
+                            {% csrf_token %}
+                        </form>
+                    {% endif %}
                 </div>
-                <!-- end card -->
+                <!-- end card-body -->
             </div>
-            <!-- end col -->
+            <!-- end card -->
         </div>
-        <!-- end row -->
-   
+        <!-- end col -->
+    </div>
+    <!-- end row -->
     <!-- container -->
 {% endblock content %}
 {% block scripts %}

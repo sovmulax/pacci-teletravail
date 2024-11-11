@@ -1,38 +1,35 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_tags %}
-
 {% block content %}
-<!-- Start Content-->
-<div class="row justify-content-center mt-5">
-    <div class="col-lg-8 col-md-10">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="header-title text-center" style="font-size: 24px; color: #333;">
-                    Motif de refus
-                </h4>
-
-                <!-- Form to refuse the telework request -->
-                <form method="post" class="form mt-4" action="">
-                    {% csrf_token %}
-                    {% crispy form %}
-                </form>
-                <!-- end form -->
+    <!-- Start Content-->
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title text-center"
+                        style="font-size: 24px;
+                               color: #333">Motif de refus</h4>
+                    <!-- Form to refuse the telework request -->
+                    <form method="post" class="form mt-4" action="">
+                        {% csrf_token %}
+                        {% crispy form %}
+                    </form>
+                    <!-- end form -->
+                </div>
+                <!-- end card-body -->
             </div>
-            <!-- end card-body -->
+            <!-- end card -->
         </div>
-        <!-- end card -->
+        <!-- end col -->
     </div>
-    <!-- end col -->
-</div>
-<!-- end row -->
-<!-- end container -->
+    <!-- end row -->
+    <!-- end container -->
 {% endblock content %}
-
 {% block scripts %}
-{{ block.super }}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script>
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
     $(document).ready(function () {
         let datatable_language = {
             processing: "Traitement en cours...",
@@ -61,5 +58,5 @@
             language: datatable_language,
         });
     });
-</script>
+    </script>
 {% endblock scripts %}

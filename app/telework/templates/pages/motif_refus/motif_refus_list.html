@@ -1,51 +1,49 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-
-<div class="col-12">
-    <div class="bg-light rounded h-100 p-4">
-        <h6 class="mb-4"> Motif de refus </h6>
-        <div class="table-responsive">
-            <p>
-                <a href="{% url 'motif_refus' %}" class="btn btn-primary"> + Motif Refus  </a>
-            </p>
-            {% if MotifRefus_list %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Demande</th>
-                            <th scope="col">Motif de refus</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Demande</th>
-                            <th scope="col">Motif de refus</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        {% for MotifRefus in MotifRefus_list %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ MotifRefus.demande }}</td>
-                            <td>{{ MotifRefus.motif }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-            {% else %}
-            <h1><i class="fas fa-info-circle"></i> Aucune demande en attente.</h1>
-            <h3>
-                <a href="{% url 'DemandeTeleTravail_list_history' %}">
-                    <i class="fas fa-arrow-left"></i> Voir la page Historique
-                </a>
-            </h3>
-            {% endif %}
+    <div class="col-12">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Motif de refus</h6>
+            <div class="table-responsive">
+                <p>
+                    <a href="{% url 'motif_refus' %}" class="btn btn-primary">+ Motif Refus</a>
+                </p>
+                {% if MotifRefus_list %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Demande</th>
+                                <th scope="col">Motif de refus</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Demande</th>
+                                <th scope="col">Motif de refus</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for MotifRefus in MotifRefus_list %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ MotifRefus.demande }}</td>
+                                    <td>{{ MotifRefus.motif }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h1>
+                        <i class="fas fa-info-circle"></i> Aucune demande en attente.
+                    </h1>
+                    <h3>
+                        <a href="{% url 'DemandeTeleTravail_list_history' %}">
+                            <i class="fas fa-arrow-left"></i> Voir la page Historique
+                        </a>
+                    </h3>
+                {% endif %}
+            </div>
         </div>
-        
     </div>
-</div>
-
 {% endblock content %}

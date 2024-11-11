@@ -1,12 +1,11 @@
 {% extends 'layouts/base.html' %}
-
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Erreur</title>
-    <style>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Erreur</title>
+            <style>
         body {
             background-color: white;
             font-family: Arial, sans-serif;
@@ -36,14 +35,16 @@
             width: 200px;  /* Augmenter la largeur du logo */
             margin-bottom: 20px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <img src="https://th.bing.com/th/id/R.26b5a2b8e1a2c91d84366d8d719f3eca?rik=%2ba2fGmKAciOPMQ&pid=ImgRaw&r=0" alt="Logo" class="logo">
-        <h4>BIENVENUE SUR LA PLATEFORME DE GESTION DE TELETRAVAIL DU PROGRAMME PAC-CI</h4>
-        <p>{{ message }}</p>
-    </div>
-</body>
-</html>
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <img src="https://th.bing.com/th/id/R.26b5a2b8e1a2c91d84366d8d719f3eca?rik=%2ba2fGmKAciOPMQ&pid=ImgRaw&r=0"
+                     alt="Logo"
+                     class="logo">
+                <h4>BIENVENUE SUR LA PLATEFORME DE GESTION DE TELETRAVAIL DU PROGRAMME PAC-CI</h4>
+                <p>{{ message }}</p>
+            </div>
+        </body>
+    </html>
 {% endblock content %}

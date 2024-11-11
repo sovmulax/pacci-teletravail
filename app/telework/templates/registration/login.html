@@ -2,90 +2,85 @@
 {% load static %}
 {% load static i18n %}
 {% block content %}
-<div class="container">
-
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-        <div class="col-xl-10 col-lg-12 col-md-9">
-
-            <div class="card o-hidden border-0 shadow-lg my-4">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <img src="{% static 'img/la-tele.png' %}" class="w-100" width="50%">
-                            <h1 class="text-primary" align="center"><i>T E L E T R A V A I L</i></h1>
-                        </div>
-                        
-                        <div class="col-lg-6">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <img class="img-fluid rounded-circle mx-auto mb-4" src="{% static 'img/logo-PAC-CI.png' %}" style="width: 150px; height: 150px;">
-                                    <h1 class="h4 text-gray-900 mb-4">Bienvenue  Cher(e) Paccien(ne) !</h1>
-                                </div>
-                                <form action="{% url 'login' %}" method="post">
-                                    {% csrf_token %}
-                                    {% if form.non_field_errors %}
-                                        <div class="alert alert-danger">
-    
-                                        {% for error in form.non_field_errors %}
-                                            <span  style="font-size: 13px;">
-                                                {{ error|escape }}
-                                            </span>
-                                        {% endfor %}
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-4">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <img src="{% static 'img/la-tele.png' %}" class="w-100" width="50%">
+                                <h1 class="text-primary" align="center">
+                                    <i>T E L E T R A V A I L</i>
+                                </h1>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img class="img-fluid rounded-circle mx-auto mb-4"
+                                             src="{% static 'img/logo-PAC-CI.png' %}"
+                                             style="width: 150px;
+                                                    height: 150px">
+                                        <h1 class="h4 text-gray-900 mb-4">Bienvenue  Cher(e) Paccien(ne) !</h1>
+                                    </div>
+                                    <form action="{% url 'login' %}" method="post">
+                                        {% csrf_token %}
+                                        {% if form.non_field_errors %}
+                                            <div class="alert alert-danger">
+                                                {% for error in form.non_field_errors %}<span style="font-size: 13px;">{{ error|escape }}</span>{% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <div class="mb-3">
+                                            <label for="emailaddress" class="form-label">Nom Utilisateur</label>
+                                            <input class="form-control"
+                                                   type="text"
+                                                   name="username"
+                                                   id="emailaddress"
+                                                   required=""
+                                                   placeholder="Entrez votre nom utilisateur">
                                         </div>
-                                    {% endif %}
-        
-                                    
-                                    <div class="mb-3">
-                                        <label for="emailaddress" class="form-label">Nom Utilisateur</label>
-                                        <input class="form-control" type="text" name="username" id="emailaddress"
-                                               required=""
-                                               placeholder="Entrez votre nom utilisateur">
-                                    </div><br>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Mot de passe</label>
-                                        <input class="form-control" type="password" name="password" required=""
-                                               id="password"
-                                               placeholder="Entrez votre mot de passe">
-                                    </div><br>
-                                    
-                                    <div class="mb-3 d-grid text-center">
-                                        <button class="btn btn-primary" type="submit" >C'est parti !</button>
-                                    </div>
-                                    <div class="mb-3 d-grid text-center">
-                                        <a id="resetPasswordBtn" class="reset-password-link">
-                                            <i class="fas fa-arrow-left"></i> Mot de passe oublié
-                                        </a>
-                                    </div>
-                                    
-                                    
-                                </form>
-                                <hr>
-                                
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Mot de passe</label>
+                                            <input class="form-control"
+                                                   type="password"
+                                                   name="password"
+                                                   required=""
+                                                   id="password"
+                                                   placeholder="Entrez votre mot de passe">
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 d-grid text-center">
+                                            <button class="btn btn-primary" type="submit">C'est parti !</button>
+                                        </div>
+                                        <div class="mb-3 d-grid text-center">
+                                            <a id="resetPasswordBtn" class="reset-password-link">
+                                                <i class="fas fa-arrow-left"></i> Mot de passe oublié
+                                            </a>
+                                        </div>
+                                    </form>
+                                    <hr>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
-</div>
-
-<!-- Fenêtre modale pour le reset de mot de passe -->
-<div id="resetPasswordModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Bien vérifiez si vous avez renseigné vos informations de connexion. Si le problème persiste, veuillez contacter l'administrateur système.</p>
+    <!-- Fenêtre modale pour le reset de mot de passe -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>
+                Bien vérifiez si vous avez renseigné vos informations de connexion. Si le problème persiste, veuillez contacter l'administrateur système.
+            </p>
+        </div>
     </div>
-</div>
-
-<!-- Style pour la fenêtre modale -->
-<style>
+    <!-- Style pour la fenêtre modale -->
+    <style>
     .modal {
         display: none;
         position: fixed;
@@ -124,9 +119,8 @@
         text-decoration: none;
         cursor: pointer;
     }
-</style>
-
-<script>
+    </style>
+    <script>
     function displayModal() {
         var modal = document.getElementById("resetPasswordModal");
         modal.style.display = "block";
@@ -145,6 +139,5 @@
     }
 
     document.getElementById("resetPasswordBtn").addEventListener("click", displayModal);
-</script>
-
+    </script>
 {% endblock %}
